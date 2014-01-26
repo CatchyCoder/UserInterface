@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
-import userinterface.DraggableComponent;
 import userinterface.item.InteractiveItem;
 import userinterface.item.Item;
 import userinterface.page.Page;

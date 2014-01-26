@@ -136,8 +136,6 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 		int y = event.getYOnScreen();
 		WINDOW.setLocation(x - lastX, y - lastY);
 		resetItemStates(event);
-		
-		System.out.println("X: " + x + "\tlastX: " + lastX);
 	}
 	
 	@Override

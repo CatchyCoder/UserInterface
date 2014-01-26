@@ -36,7 +36,6 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		this.setLayout(null);
 		this.setLocationRelativeTo(null);
 		this.setFocusable(true);
-		this.setTitle("Secret Santa");
 		this.setVisible(false);
 		
 		super.addMouseListener(inputHandler);
@@ -193,7 +192,6 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		lastX = event.getX();
 		lastY = event.getY();
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		System.out.println("START");
 	}
 
 	@Override

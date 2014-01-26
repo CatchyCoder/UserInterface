@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import userinterface.DraggableComponent;
 import userinterface.page.Page;
 
 public class ButtonItem extends InteractiveItem {
