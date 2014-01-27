@@ -1,0 +1,14 @@
+To-Do List:
+
++ Add a MultiStateButton()
+	Pass in a matrix (String[buttonCount][2])
+	
+	String[][2] matrix = {
+		{"image1", "image1hover"},
+		{"image2", "image2hover"},
+		...
+		...};
+	
+	As you click the button it will just pass through
+	each image or "state", and each state has a specific
+	action

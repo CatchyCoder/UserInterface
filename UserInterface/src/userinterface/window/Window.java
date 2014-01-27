@@ -19,7 +19,7 @@ import userinterface.input.InputHandler;
 import userinterface.item.Item;
 import userinterface.page.Page;
 
-public class Window extends JFrame implements InteractiveComponent, DraggableComponent{
+public class Window extends JFrame implements InteractiveComponent, DraggableComponent {
 	
 	private static final long serialVersionUID = 1L;
 	

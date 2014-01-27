@@ -85,9 +85,7 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 	 * similar to MouseAdapter.
 	 */
 	
-	public void handleMousePress(InteractiveItem item) {
-		
-	}
+	public void handleMousePress(InteractiveItem item) {}
 	
 	public void handleKeyPress(InteractiveItem item, int key) {}
 	
