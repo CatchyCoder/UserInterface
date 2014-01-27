@@ -12,3 +12,4 @@ To-Do List:
 	As you click the button it will just pass through
 	each image or "state", and each state has a specific
 	action
++ Add start color for ButtonItem DONE

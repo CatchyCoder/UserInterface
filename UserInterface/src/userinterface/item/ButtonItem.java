@@ -18,7 +18,7 @@ public class ButtonItem extends InteractiveItem {
 	
 	private boolean imageUse;
 	
-	private Color color;
+	private Color color, hoverColor;
 	
 	public ButtonItem(Page page, int xPos, int yPos, String nonHoverName, String hoverName) {
 		super(page, xPos, yPos);
@@ -42,17 +42,18 @@ public class ButtonItem extends InteractiveItem {
 		}
 	}
 	
-	public ButtonItem(Page page, int xPos, int yPos, String text, Font font, Color color) {
+	public ButtonItem(Page page, int xPos, int yPos, String text, Font font, Color color, Color hoverColor) {
 		super(page, xPos, yPos);
 		
 		imageUse = false;
 		this.color = color;
+		this.hoverColor = hoverColor;
 		
 		try {
 			// Visual settings
 			BUTTON.setFont(font);
 			BUTTON.setText(text);
-			BUTTON.setForeground(Color.BLACK);
+			BUTTON.setForeground(color);
 			BUTTON.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			this.setSizeAndLoc(BUTTON);
 			
@@ -66,13 +67,13 @@ public class ButtonItem extends InteractiveItem {
 	@Override
 	public void mouseEntered(MouseEvent event) {
 		if(imageUse) BUTTON.setIcon(enterState);
-		else BUTTON.setForeground(color);
+		else BUTTON.setForeground(hoverColor);
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent event) {
 		if(imageUse) BUTTON.setIcon(exitState);
-		else BUTTON.setForeground(Color.BLACK);
+		else BUTTON.setForeground(color);
 	}
 	
 	@Override
