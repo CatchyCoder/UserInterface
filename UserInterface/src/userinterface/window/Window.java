@@ -135,8 +135,6 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 	}
 	
 	public void setPage(Page page) {
-		// Clears the screen of current pages, and adds the
-		// one specified page to the screen
 		ArrayList<Page> pageHolder = new ArrayList<Page>();
 		pageHolder.add(page);
 		setPages(pageHolder);
