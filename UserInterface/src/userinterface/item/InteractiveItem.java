@@ -47,8 +47,5 @@ public abstract class InteractiveItem extends Item implements InteractiveCompone
 	public void mouseMoved(MouseEvent event) {}
 	
 	@Override
-	public void keyPressed(KeyEvent event, int key) {}
-	
-	@Override
 	public void actionPerformed(ActionEvent event) {}
 }

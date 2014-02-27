@@ -15,11 +15,18 @@ import userinterface.page.Page;
 import userinterface.window.Window;
 
 /**
- * All mouse/key action methods work the same. Each one checks three things:
- * 1.) If the Window (JFrame) was acted on, otherwise...
- * 2.) If the Pages (JPanel) in the Window were acted on, otherwise...
- * 3.) If the Items (JLabels) in the Pages were acted on, otherwise...
- * 4.) An error message is displayed on the object that could not be found.
+ * All mouse action methods work the same. Each one checks the following:
+ * <li>If the Window (JFrame) was acted on, otherwise...
+ * <li>If the Pages (JPanel) in the Window were acted on, otherwise...
+ * <li>If the Items (JLabels) in the Pages were acted on, otherwise...
+ * <li>An error message is displayed on the object that could not be found.
+ * <br><br>
+ * Key events work differently. For these events the Window is the source 
+ * of all key input, and the window sends the input to each and every Page 
+ * it contains, and the the Pages handle the key input in their own way.
+ * The way each Page handles the input is specified in {@code handleKeyPress(KeyEvent)} 
+ * 
+ * @author Clay Kuznia
  */
 public final class InputHandler extends KeyAdapter implements MouseListener, MouseMotionListener, ActionListener {
 	
@@ -32,7 +39,7 @@ public final class InputHandler extends KeyAdapter implements MouseListener, Mou
 	@Override
 	public void mousePressed(MouseEvent event) {
 		Object source = event.getSource();
-		
+				
 		if(source == window) {
 			window.mousePressed(event);
 			window.startDrag(event);
@@ -158,19 +165,15 @@ public final class InputHandler extends KeyAdapter implements MouseListener, Mou
 	
 	@Override
 	public void keyPressed(KeyEvent event) {
-		Object source = event.getSource();
-		int key = event.getKeyCode();
-		
-		if(source == window) window.keyPressed(event, key);
-		else if(source instanceof Page) {
-			getSourcePage(source).keyPressed(event, key);
+		ArrayList<Page> pages = window.getPages();
+		// If there are no pages, ignore the input
+		if(pages.size() == 0) {
+			event.consume();
+			return;
 		}
-		else if(source instanceof InteractiveItem) {
-			InteractiveItem item = (InteractiveItem) getSourceItem(source);
-			item.keyPressed(event, key);
-			item.getPage().handleKeyPress(item, key);
-		}
-		
+				
+		// Sending the key input to each page
+		for(Page page : pages) page.handleKeyPress(event);
 		event.consume();
 	}
 	
@@ -193,28 +196,28 @@ public final class InputHandler extends KeyAdapter implements MouseListener, Mou
 	
 	/**
 	 * Finds out what Page was acted on in the current visible Window, and returns that Page.
-	 * returns null if the Page was not acted on.
+	 * returns null if a Page was not acted on.
 	 * @param source
 	 * @return page
 	 */
 	private Page getSourcePage(Object source) {
-		// Finding the object that was acted on in the Page
-		for(Page page : getVisiblePages()) {
+		// Finding the Page that was acted on
+		for(Page page : window.getPages()) {
 			if(source == page) return page;
 		}
-		// Page was not acted on
+		// No Page was acted on
 		return null;
 	}
 	
 	/**
 	 * Finds out what Item was acted on in the given Page, and returns that Item.
-	 * returns null if the Item was not acted on.
+	 * returns null if no Item was not acted on.
 	 * @param source
 	 * @return item
 	 */
 	private Item getSourceItem(Object source) {
 		// Looking through each page
-		for(Page page : getVisiblePages()) {
+		for(Page page : window.getPages()) {
 			// Finding the object that was acted on in the Page
 			for(Item item : page.getItems()) {
 				if(source == item.getComponent()) return item;
@@ -222,9 +225,5 @@ public final class InputHandler extends KeyAdapter implements MouseListener, Mou
 		}
 		System.err.println("Item that was acted on was not found! Object = " + source);
 		return null;
-	}
-	
-	private ArrayList<Page> getVisiblePages() {
-		return window.getVisiblePages();
 	}
 }

@@ -34,9 +34,6 @@ public class TextBoxItem extends InteractiveItem {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {}
-
-	@Override
-	public void keyPressed(KeyEvent event, int key) {}
 	
 	@Override
 	public JTextField getComponent() {

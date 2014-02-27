@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import userinterface.DraggableComponent;
 import userinterface.InteractiveComponent;
@@ -87,7 +89,7 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 	
 	public void handleMousePress(InteractiveItem item) {}
 	
-	public void handleKeyPress(InteractiveItem item, int key) {}
+	public void handleKeyPress(KeyEvent event) {}
 	
 	public void handleActionEvent(InteractiveItem item) {}
 	
@@ -96,6 +98,9 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 	
 	@Override
 	public void startDrag(MouseEvent event) {
+		// Only dragging if it is a left mouse click
+		if(!SwingUtilities.isLeftMouseButton(event)) return;
+		
 		// Below is for dragging purposes
 		lastX = event.getX() + this.getLocation().x;
 		lastY = event.getY() + this.getLocation().y;
@@ -103,6 +108,9 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 	}
 	
 	public void startDragItem(MouseEvent event, int compX, int compY) {
+		// Only dragging if it is a left mouse click
+		if(!SwingUtilities.isLeftMouseButton(event)) return;
+		
 		// Below is for dragging purposes when a NoninteractableItem is pressed
 		lastX = event.getX() + this.getLocation().x + compX;
 		lastY = event.getY() + this.getLocation().y + compY;
@@ -129,6 +137,9 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 	
 	@Override
 	public void drag(MouseEvent event) {
+		// Only dragging if it is a left mouse click
+		if(!SwingUtilities.isLeftMouseButton(event)) return;
+		
 		// Below adds the ability to drag program around on screen
 		int x = event.getXOnScreen();
 		int y = event.getYOnScreen();
@@ -138,9 +149,6 @@ public abstract class Page extends JPanel implements InteractiveComponent, Dragg
 	
 	@Override
 	public void mouseMoved(MouseEvent event) {}
-	
-	@Override
-	public void keyPressed(KeyEvent event, int key) {}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {}

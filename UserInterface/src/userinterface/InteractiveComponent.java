@@ -16,9 +16,6 @@ public interface InteractiveComponent {
 	abstract public void mouseDragged(MouseEvent event);
 	abstract public void mouseMoved(MouseEvent event);
 	
-	// For key events
-	abstract public void keyPressed(KeyEvent event, int key);
-	
 	// For action events (These are used for JTextFields for when the <enter> key is pressed)
 	abstract public void actionPerformed(ActionEvent event);
 }

@@ -1,5 +1,6 @@
 package userinterface.util;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -17,25 +18,31 @@ public class TextList {
 	private int xPos, yPos, spacing;
 	private Font font;
 	private String nonHoverPath, hoverPath;
+	private Color color;
 	
 	private final ArrayList<Item> LIST_ITEMS = new ArrayList<Item>();
 	private final ArrayList<Item> LIST_BUTTONS = new ArrayList<Item>();
 	
-	public TextList(Page page, int xPos, int yPos, Font font, int spacing, String nonHoverPath, String hoverPath) {
+	public TextList(Page page, int xPos, int yPos, Font font, Color color, int spacing, String nonHoverPath, String hoverPath) {
 		this.page = page;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.font = font;
+		this.color = color;
 		this.spacing = spacing;
 		this.nonHoverPath = nonHoverPath;
 		this.hoverPath = hoverPath;
 	}
 	
-	public TextList(Page page, int xPos, int yPos, Font font, int spacing) {
-		this(page, xPos, yPos, font, spacing, "", "");
+	public TextList(Page page, int xPos, int yPos, Font font, Color color, int spacing) {
+		this(page, xPos, yPos, font, color, spacing, "", "");
 	}
 	
 	public void addListItem(String text) {
+		addListItem(text, color);
+	}
+	
+	public void addListItem(String text, Color color) {
 		int listSize = LIST_ITEMS.size();
 		text = (listSize + 1) + ".) " + text;
 		int yValue;
@@ -45,7 +52,7 @@ public class TextList {
 		else yValue = yPos + (LIST_ITEMS.get(0).getComponent().getHeight() * listSize + spacing * listSize);
 		
 		// Creating the list item
-		LIST_ITEMS.add(new TextItem(page, xPos, yValue, text, font));
+		LIST_ITEMS.add(new TextItem(page, xPos, yValue, text, font, color));
 		// Creating the list button, but only if they provided image names (meaning the list is editable)
 		if(!(nonHoverPath.equals("") || hoverPath.equals(""))) LIST_BUTTONS.add(new ButtonItem(page, xPos - 40, yValue, "exit.jpg", "exithover.jpg"));
 		

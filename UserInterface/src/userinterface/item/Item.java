@@ -42,6 +42,16 @@ public abstract class Item {
 		textField.setBounds(xPos, yPos, width, height);
 	}
 	
+	public void setText(String text) {
+		if(getComponent() instanceof JLabel) {
+			// Setting the text
+			((JLabel) getComponent()).setText(text);
+			
+			// Resizing the component
+			setSizeAndLoc((JLabel) getComponent());
+		}
+	}
+	
 	public Page getPage() {
 		return PAGE;
 	}

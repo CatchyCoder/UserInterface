@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import userinterface.DraggableComponent;
 import userinterface.InteractiveComponent;
@@ -19,12 +20,12 @@ import userinterface.input.InputHandler;
 import userinterface.item.Item;
 import userinterface.page.Page;
 
-public class Window extends JFrame implements InteractiveComponent, DraggableComponent {
+public class Window extends JFrame implements InteractiveComponent, DraggableComponent, KeyListener {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private InputHandler inputHandler = new InputHandler(this);
-	private ArrayList<Page> visiblePages = new ArrayList<Page>(); // The pages being viewed by the user
+	private ArrayList<Page> pages = new ArrayList<Page>();
 	
 	private int lastX, lastY; // For dragging the program around
 	
@@ -49,7 +50,7 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		super.addMouseListener(listener);
 				
 		// Adding the listener to all the pages and their items
-		for(Page page : visiblePages) {
+		for(Page page : pages) {
 			page.addMouseListener(listener);
 			for(Item item : page.getItems()) item.getComponent().addMouseListener(listener);
 		}
@@ -62,7 +63,7 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		super.addMouseMotionListener(listener);
 				
 		// Adding the listener to all the pages and their items
-		for(Page page : visiblePages) {
+		for(Page page : pages) {
 			page.addMouseMotionListener(listener);
 			for(Item item : page.getItems()) item.getComponent().addMouseMotionListener(listener);
 		}
@@ -74,7 +75,7 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		super.addKeyListener(listener);
 		
 		// Adding the listener to all the pages and their items
-		for(Page page : visiblePages) {
+		for(Page page : pages) {
 			page.addKeyListener(listener);
 			for(Item item : page.getItems()) item.getComponent().addKeyListener(listener);
 		}
@@ -112,7 +113,7 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 	public void addPage(Page page) {
 		addCurrentEventListeners(page);
 		this.add(page);
-		visiblePages.add(page);
+		pages.add(page);
 		page.setVisible(true);
 		
 		refreshScreen();
@@ -124,14 +125,14 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		
 		removeCurrentEventListeners(page);
 		this.remove(page);
-		visiblePages.remove(page);
+		pages.remove(page);
 		page = null;
 		
 		refreshScreen();
 	}
 	
 	public void removeAllPages() {
-		for(int x = 0; x < visiblePages.size(); x++) removePage(visiblePages.get(x));
+		for(int x = 0; x < pages.size(); x++) removePage(pages.get(x));
 	}
 	
 	public void setPage(Page page) {
@@ -151,11 +152,11 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 	}
 	
 	public void refreshScreen() {
-		if(visiblePages.size() <= 0) return;
+		if(pages.size() <= 0) return;
 		
 		// Refreshing screen by repainting each page
 		this.repaint();
-		for(Page page : visiblePages) page.repaint();
+		for(Page page : pages) page.repaint();
 	}
 	
 	@Override
@@ -172,8 +173,8 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 		this.requestFocus();
 	}
 	
-	public ArrayList<Page> getVisiblePages() {
-		return visiblePages;
+	public ArrayList<Page> getPages() {
+		return pages;
 	}
 	
 	/* =======================
@@ -186,6 +187,9 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 	
 	@Override
 	public void startDrag(MouseEvent event) {
+		// Only dragging if it is a left mouse click
+		if(!SwingUtilities.isLeftMouseButton(event)) return;
+				
 		// Below is for dragging purposes
 		lastX = event.getX();
 		lastY = event.getY();
@@ -212,18 +216,27 @@ public class Window extends JFrame implements InteractiveComponent, DraggableCom
 	
 	@Override
 	public void drag(MouseEvent event) {
+		// Only dragging if it is a left mouse click
+		if(!SwingUtilities.isLeftMouseButton(event)) return;
+		
 		// Below adds the ability to drag program around on screen
 		int x = event.getXOnScreen();
 		int y = event.getYOnScreen();
 		this.setLocation(x - lastX, y - lastY);
-		for(Page page : visiblePages) page.resetItemStates(event);
+		for(Page page : pages) page.resetItemStates(event);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent event) {}
 
 	@Override
-	public void keyPressed(KeyEvent event, int key) {}
+	public void keyPressed(KeyEvent event) {}
+	
+	@Override
+	public void keyReleased(KeyEvent event) {}
+
+	@Override
+	public void keyTyped(KeyEvent event) {}	
 
 	@Override
 	public void actionPerformed(ActionEvent event) {}	

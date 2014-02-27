@@ -11,12 +11,12 @@ public class TextItem extends NoninteractiveItem {
 	
 	private final JLabel TEXT = new JLabel();
 	
-	public TextItem(Page page, int xPos, int yPos, String text, Font font) {
+	public TextItem(Page page, int xPos, int yPos, String text, Font font, Color color) {
 		super(page, xPos, yPos);
 		
 		TEXT.setFont(font);
 		TEXT.setText(text);
-		TEXT.setForeground(Color.BLACK);
+		TEXT.setForeground(color);
 		this.setSizeAndLoc(TEXT);
 		
 		page.addItem(this);
